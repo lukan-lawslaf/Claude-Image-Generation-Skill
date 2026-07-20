@@ -1,59 +1,27 @@
-<div align="center">
+# Claude Image Generation Skill
 
-```
+![Python](https://img.shields.io/badge/Python-3.6%2B-blue?logo=python)
+![No API Key](https://img.shields.io/badge/API%20Key-None%20Required-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Powered By](https://img.shields.io/badge/Powered%20By-Pollinations%20AI-ff69b4)
 
-██████╗ ██████╗ ██████╗ ███████╗███████╗███████╗
-██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝
-██████╔╝██████╔╝██████╔╝█████╗  ███████╗███████╗
-██╔═══╝ ██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║
-██║     ██║     ██║  ██║███████╗███████║███████║
-╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
-```
-
-
-# Claude-Image-Generation-Skill
-
-
-Skill.md for enabling claude to generate images 
-
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-
-
-</div>
+> A plug-and-play Claude agent skill that generates images from plain English — no API key, no setup, no dependencies beyond Python's standard library.
 
 ---
 
+## How It Works
 
-## 📖 About
+1. You make any image request — casual phrasing like *"draw me a fox"* or *"what would a neon Tokyo street look like?"* all trigger it.
+2. Claude enhances your prompt automatically, adding lighting, style, composition, and atmosphere details.
+3. `scripts/generate_image.py` builds a [Pollinations AI](https://pollinations.ai/) URL and downloads the image locally.
+4. Claude displays it inline and optionally shows you the original vs. enhanced prompt.
 
-Skill.md for enabling claude to generate images 
-
----
-
-## ✨ Features
-
-- ✅ Clean and maintainable codebase
-- ✅ Well-documented with examples
-- ✅ Easy to extend and customize
+No tokens spent on image generation. No rate limits. Completely free.
 
 ---
 
-## 🛠️ Tech Stack
+## Installation
 
-**Languages**: `Python`
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-
-### Installation
-
-```bash
 ```bash
 git clone https://github.com/lukan-lawslaf/Claude-Image-Generation-Skill.git
 ```
@@ -63,13 +31,9 @@ Drop the folder into your Claude agent's `skills/` directory alongside `SKILL.md
 **Requirements:** Python 3.6+ — uses only the standard library (`argparse`, `urllib`, `re`, `random`).
 
 ---
-```
 
----
+## Usage
 
-## 💡 Usage
-
-```bash
 Just ask naturally. All of these work:
 
 ```
@@ -83,38 +47,76 @@ Create an icon for a meditation app
 Claude picks the right dimensions automatically based on what you're making.
 
 ---
+
+## Size Presets
+
+| Use Case | Dimensions | Aspect Ratio |
+|---|---|---|
+| General / Square | 1024 × 1024 | 1:1 |
+| Portrait / Character art | 768 × 1024 | 3:4 |
+| Landscape / Scene | 1024 × 768 | 4:3 |
+| Widescreen / Banner | 1920 × 1080 | 16:9 |
+| Icon / Thumbnail | 512 × 512 | 1:1 |
+
+You can also specify custom dimensions: *"make a 1200×630 image for an Open Graph card"*.
+
+---
+
+## Prompt Enhancement
+
+Claude rewrites vague prompts before passing them to the generator:
+
+| Your request | What gets sent |
+|---|---|
+| `a sunset` | `golden hour sunset over calm ocean, warm amber and rose tones, soft lens flare, cinematic composition, photorealistic` |
+| `a robot` | `sleek humanoid robot in a dimly lit laboratory, chrome surfaces with blue LED accents, detailed mechanical joints, dramatic side lighting, concept art style` |
+
+Already-detailed prompts get only light polish — Claude won't change your subject or override a style you've specified.
+
+---
+
+## Script Reference
+
+`scripts/generate_image.py` can also be run directly:
+
+```bash
+python3 scripts/generate_image.py "prompt text" \
+  --width 1024 \
+  --height 1024 \
+  --seed 42 \
+  --out my_image.png
 ```
 
+| Argument | Default | Description |
+|---|---|---|
+| `prompt` | *(required)* | The image-generation prompt |
+| `--width` | `1024` | Output width in pixels |
+| `--height` | `1024` | Output height in pixels |
+| `--seed` | random | Fixed seed for reproducible results |
+| `--out` | `<slug>.png` | Output file path |
+| `--no-download` | off | Print URL only, skip download |
+
+**Output format:**
+```
+URL: https://image.pollinations.ai/prompt/...
+FILE: /path/to/saved/image.png
+```
+
+If the download fails (e.g. no network access), the `URL:` line is still printed so Claude can embed it as a Markdown image instead.
+
 ---
 
-## 🤝 Contributing
+## Seeds
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- **Default:** random seed each run — every generation is unique.
+- **Fixed seed:** pass `--seed <n>` to iterate on the same concept (tweak the prompt without changing the composition entirely).
 
 ---
+
+## License
 
 MIT — free to use, modify, and redistribute.
 
 ---
 
 *Powered by [Pollinations AI](https://pollinations.ai/) — free, open, no-key image generation.*
-
----
-
-
-
-
----
-<div align="center">
-
-**Made with ❤️ by [lukan-lawslaf](https://github.com/lukan-lawslaf)**
-
-⭐ Star this repo if you found it helpful!
-
-</div>
